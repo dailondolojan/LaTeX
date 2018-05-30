@@ -1,0 +1,144 @@
+\documentclass[leqno,10pt]{article}
+\usepackage{fullpage,amsthm,amsfonts,amssymb,epsfig,amsmath,times,amsthm,natbib,graphicx,fancyhdr}
+
+\pagestyle{fancy}
+
+% References can be found in README.txt
+
+\begin{document}
+
+\setcounter{page}{465}
+
+\renewcommand{\headrulewidth}{0pt}
+
+\renewcommand{\footnoterule}{%
+  \kern -3pt
+  \hrule width 0.8in
+  \kern 2pt
+}
+
+\begin{center}
+    \textbf{THE TOILET PAPER PROBLEM}
+\\
+\end{center}
+\begin{center}
+ Donald E. Knuth
+    
+    \textit{Computer Science Department, Stanford University,Stanford, CA 94305}
+    
+\end{center}
+
+\textbf{1. Introduction.}
+The toilet paper dispensers in a certain building are designed to hold two rolls of tissues, and a person can use either roll.
+
+There are two kinds of people who use the rest rooms in the building: \textit{big-choosers} and \textit{little-choosers}. A big-chooser always takes a piece of toilet paper from the roll that is currently larger; a little-chooser always does the opposite. However, when the two rolls are the same size, or when only one roll is nonempty, everybody chooses the nearest nonempty roll. When both rolls are empty, everybody has a problem.
+
+Let us assume that people enter the toilet stalls independently at random, with probability $p$ that they are big-choosers and probability $q = 1 - p$ that they are little-choosers. If the janitor supplies a particular stall with two fresh rolls of toilet paper, both of length $n$, let $M_{n} (p)$ be the average number of portions left on one roll when the other roll first empties. (We assume that everyone uses the same amount of paper, and that the lengths are expressed in terms of this unit.) For example, it is easy to establish that
+
+\begin{center}
+
+$ M_{1}(p)=1,\quad  M_{2}(p) = 2 - p, \quad M_{3}(p)=3-2p - p^2 + p^3; \quad M_{n}(0)=n; \quad M_{n}(1)$
+
+\end{center}
+
+The purpose of this paper is to study the asymptotic value of $M_{n}(p)$ for fixed $p$ as $n\rightarrow \infty$. We will see that the generating function $\sum_{n}M_{n}(p)z^{n}$ has a surprisingly simple form, from which the asymptotic behavior can readily be deduced. Along the way we will encounter several other interesting facts.
+\\
+\\
+\textbf{2. Recurrence Relations.}. Let us begin by generalizing the problem,slightly, using the notation
+$M_{nn} (p)$ to stand for the mean number of portions left when one roll empties, if we start with $m$ on one roll and $n$ on the other. Thus
+\\
+\\
+\indent \indent \indent \indent \indent $M_{n} (p) = M_{nn} (p);$
+\\
+\indent \indent \indent \indent \indent $M_{m0} (p) = m;$
+\\
+\indent \indent \indent \indent \indent $M_{nn} (p) = M_{n(n-1)} (p), \quad if n>0;$
+\\
+\indent \indent \indent \indent \indent $M_{mn} (p) = pM_{(m-1)n} (p) + qM_{m(n-1)}(p),$ \quad if $m>n>0.$ 
+\\
+\\
+\noindent The value of $M_{n} (p)$ can be computed for all $n$ from these recurrence relations, since no pairs $(m',n')$ with $m' < n'$ will arise.
+
+It is convenient to visualize the recurrence by drawing certain arcs between adjacent lattice points in the plane, where the arc from $(n, n)$ to $(m - 1, n)$ has weight $p$ and from $(m, n)$ to
+$(m, n - 1)$ has weight $q$, for all $0 < n < m$; the arc from $(m, n)$ to $(n, n - 1)$ has weight 1 for all
+$n > 0$; and there are no other arcs. Then $M_{mn} (p)$ is the sum, over all $k \geqslant 1$, of $k$ times the sum
+of the weights of all paths from $(m, n)$ to $(k, 0)$, where the weight of a path is the product of the individual arc weights.
+
+A path that starts at the diagonal point $(n, n)$ must go first to $(n, n - 1)$; then it either returns
+to the diagonal at $(n - 1, n - 1)$ or goes to $(n, n - 2)$, etc. Let $c_{k}$ be the number of paths from
+$(n, n)$ to $(n - k, n - k)$ whose intermediate points do not touch the diagonal, and let $d_{nk}$ be the number of paths from $(n, n - 1)$ to $(k, 1)$ whose points do not ever touch the diagonal. A path
+that starts at $(n, n)$ either returns to the diagonal for the first time at some point $(n - k, n - k)$, or never returns to the diagonal at all; it follows that
+\\
+\\
+\footnoterule{The author is Fletcher Jones Professor of Computer Science at Stanford University. "My main life's work is what I like to call the analysis of algorithms, but I also enjoy doing research in supporting disciplines such as combinatorial and discrete mathematics, programming languages, and digital typograph}
+
+\pagebreak
+$$M_{n} (p) =c_{1}pM_{n-1}(p)+c_{2}p^{2}qM_{n-2}(p)+...+c_{n-1}p^{n-1}q^{n-2}M_{1}(p)+L_{n}(p)$$
+
+$$= \sum_{0<k<n} c_{k}p^{k}q^{k-1}M_{n-k}(p)+L_{n}(p);$$
+$$L_{n}(p) = \sum_{2 \leqslant k \leqslant n} kd_{nk}p^{n-k}q^{n-1},\quad \text{for } n \geqslant 2; \quad L_{1}(p) = 1.$$
+\\
+(Each path from $(n, n)$ to $(n - k, n - k)$ has weight $p^{k}q^{k-l}$ if no intermediate diagonal points are involved, since the step to $(n, n - 1)$ has weight $1$ and then there are $k$ steps of weight $p$ and $k - 1$ of weight $q$, in some order. Similarly, each diagonal-avoiding path from $(n, n - 1)$ to $(k, 1)$ has weight $p^{n-k}q^{n-2}$.)
+
+The coefficients $c_{k}$ are the well-known Catalan numbers, and the coefficients $d_{nk}$ are the well-known numbers that arise in the classical ballot problem; see, for example, [\textbf{2}, III.1], [\textbf{3},
+exercise 2.2.1-4]. We can discover the required values by observing that $d_{nk}$ is the number of decreasing paths from $(n, n - 1)$ to $(k, 1)$ minus the number of decreasing paths from $(n, n - 1)$
+to $(1, k)$, where a "decreasing path" is any path that decreases either the left component or the right component by unity at each step. This follows because there is a 1-1 correspondence between all decreasing paths from $(n, n - 1)$ to $(k, 1)$ that do touch the diagonal and all decreasing paths from $(n, n - 1)$ to $(1, k)$; the idea [\textbf{1}] is to reflect the path about the diagonal, starting after the place where it first touches a diagonal point. Since the number of decreasing paths from $(a, b)$ to $(c,d)$ is 
+$\begin{pmatrix} 
+a + b - c - d \\
+a - c 
+\end{pmatrix} =
+\begin{pmatrix} 
+a + b - c - d \\
+b - d 
+\end{pmatrix}$
+for all $a \geqslant c$ and $b \geqslant d$, we have
+$$d_{nk}= \begin{pmatrix} 
+2n-k-2 \\
+n-2
+\end{pmatrix}- \begin{pmatrix} 
+2n-k-2 \\
+n-1
+\end{pmatrix} = \begin{pmatrix} 
+2n-k-2 \\
+n-2
+\end{pmatrix}\frac{k-1}{n-1}.$$
+Furthermore $c_{n-1}=d_{n2}$, hence
+$$c_{n}=\begin{pmatrix} 
+2n-2 \\
+n-1
+\end{pmatrix}\frac{1}{n}$$
+
+\textbf{3. Special power series.} 
+The generating function for Catalan numbers
+
+$$C(z) = c_{1}z+c_{2}z^{2}+...=\sum_{n \geqslant 1}\begin{pmatrix} 
+2n-2 \\
+n-1
+\end{pmatrix}
+\frac{1}{n}z^{n}=\frac{1-\sqrt{1-4z}}{2}$$
+can be derived in many ways. For our purposes it seems best to make use of the general identity
+\begin{equation}
+\sum_{k \geqslant 0}\left(\frac{2k+w}{k}\right)z^{k}=\frac{1}{\sqrt{1-4z}}\left(\frac{1-\sqrt{1-4z}}{2z}\right)^{w} \tag{*}.
+\end{equation}
+This well-known identity holds for all complex numbers $w$; it can be proved easily by contour integration: The coefficient of $z^{k}$ in the Maclaurin expansion of the right-hand side is
+
+$$ \frac{1}{2\pi i}\oint \frac{1}{\sqrt{1-4z}}\left(\frac{1-\sqrt{1-4z}}{2z}\right)^{w}\frac{dz}{z^{k+1}}= \frac{1}{2\pi i}\oint \frac{dt}{(1-t)^{w+k+1}t^{k+1}} $$
+
+if we make the substitutions $t = \frac{1}{2}(1 - \sqrt{1 - 4z}$), $z = t - t^{2}$, $dz = (1 - 2t) dt$. The latter integral is the residue of the integrand, i.e., the coefficient of $t^{k}$ in $(1 - t)^{w-k-1}$, namely $\begin{pmatrix}
+-w -k -1\\
+k 
+\end{pmatrix} (-1)^{k}= \begin{pmatrix}
+2k+w\\
+k
+\end{pmatrix}$ (A more elementary proof can be found in [\textbf{3}, exercise 1.2.6-26].)
+\\
+\indent The derivative of $C(z)/z$ with respect to $z$ is $C(z)^{2}/(z^{2}\sqrt{1 - 4z})$; hence we can replace w by w + 1 in (*) and integrate, obtaining the companion formula
+$$\sum_{k \geqslant 0}\frac{w}{k+w}\begin{pmatrix} 
+2k+w-1 \\
+k
+\end{pmatrix}z^{k}= \left(\frac{1-\sqrt{1-4z}}{2z}\right)^{w}.$$
+ Again, this result is valid for all complex $w$, if we evaluate the coefficient by continuity when
+ $k + w = 0$. The case $w = 1$ of this formula reduces to the generating function for Catalan
+ numbers stated earlier.
+
+\end{document}

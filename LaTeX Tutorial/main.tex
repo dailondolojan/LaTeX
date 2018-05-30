@@ -1,0 +1,281 @@
+\documentclass[11pt,twocolumn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{indentfirst,fancyvrb,cite}
+
+\title{\LaTeX\ Tutorial}
+\author{Dailon Dolojan \\ ddolojan@ucsc.edu}
+\date{January 27, 2018}
+
+\usepackage{multicol}
+\setlength{\columnsep}{1cm}
+\setlength{\parindent}{1cm}
+
+\begin{document}
+
+\maketitle 
+
+\section{Introduction}
+\LaTeX\ or more formally known as Lamport TeX is a document preparation system which allows users to write word documents in plain text. 
+\par \LaTeX\ implements the usage of markup tagging in order to create the overall structure of a given document. \LaTeX\ is often used to create documents such as letters, articles, books, and other stylized documents. Within this manual, common conventions of \LaTeX\ and their usage will be explained in detail.
+
+\section{Document classes}
+\indent When writing a document within \LaTeX\, there are various document classes which determines the overall layout of the document. There are several document classes within \LaTeX\ including article, letter, beamer, slides, books, and other user defined document classes.
+\par In defining a document class of a specific document, a user can utilize the following structure for establishing a document class.\\
+
+\noindent \textbf{Example 2.0.1:}
+\begin{verbatim}
+    \documentclass[options]{class}
+\end{verbatim}
+
+The user can specify various attributes of the document such as size of font, paper size, and other aspects within the \textit{options} parameter. The \textit{class} parameter is used to specify the class of a document. Within \textbf{Example 2.0.2}, a user has specified to used 11pt font and will have a paper size of a4 paper with a document class of ``letter".\\
+
+\noindent \textbf{Example 2.0.2:}
+
+\begin{verbatim}
+  \documentclass[11pt,a4paper]{letter}
+\end{verbatim}
+
+Within this manual we will go over three prominent classes: article, letter, and beamer.
+
+\subsection{Article}
+
+The document class \textit{article} is often used to write articles within scientific journals, reports, presentations, and other applied uses. Article is often used to present information within a structured report and is one of the most common document classes used within \LaTeX. \textbf{Example 2.1} specifies how to write an article with 12pt font.\\
+\newline
+\noindent \textbf{Example 2.1:}
+\begin{verbatim}
+  \documentclass[12pt]{article}
+\end{verbatim}
+
+\subsection{Letter}
+
+The document class \textit{letter} is used to write a structured, formal letter to a specific correspondent. The document class letter has specific commands that can be utilized to create the overall layout of a stereotypical letter. \textbf{Example 2.2} implements a typical structure of a formal letter.\\
+
+\noindent \textbf{Example 2.2:}
+\begin{verbatim}
+\address{Street \\ City \\ Country}
+\begin{document}
+\begin{letter}{Recipient \\ Street\\
+City\\ Country}
+\opening{Dear _}
+Insert Body of Letter here
+\closing{Sincerely,}
+\signature{Your Name}
+\ps{Insert P.S.}
+\end{letter}
+\end{verbatim}
+\par The command \textit{\textbackslash address\{\}} inputs the sender's street, city and country on the top right hand corner of the document which is separated by double backslashes. The command \textit{\textbackslash begin\{letter\}\{\}} specifies the recipient's address within the second parameter separated by backslashes. The command \textit{\textbackslash opening\{\}} allows for the user to insert the opening address to the recipient such as ``Dear Mr. Greenwidge" or ``Hello Ms. Smith" whereupon the user may write the body of the letter following the opening. Lastly the commands \textit{\textbackslash closing\{\}}, \textit{\textbackslash signature\{\}}, and \textit{\textbackslash ps\{\}} implements the closing of the letter within the given parameter, types your name, and writes any post scriptum (p.s.) notes at the end of your letter with each respective command.
+
+\subsection{Beamer}
+
+\textit{Beamer} is a document class within \LaTeX\ that allows a user to create presentations with various slides. Individuals often use the document class \textit{Beamer} to further customize a slide show to highlight key points during a presentation. \textbf{Example 2.3} illustrates how a user would be able to create a slide with a title and subtitle.\\
+
+\noindent \textbf{Example 2.3:}
+\begin{verbatim}
+\frametitle{Insert Title of Frame}
+    \framesubtitle{Insert Subtitle of 
+    Frame}
+    Insert Content of slide
+  \end{frame}
+\end{verbatim}
+
+\section{Creating a Title and Author}
+To create a simple title and author listing on a given document, a \LaTeX\ user can simply insert a title and author by first specifying the title and author with the following commands \textit{\textbackslash title\{\}} and \textit{\textbackslash author\{\}}. The user can then create the title and author with the command \textit{\textbackslash maketitle\{\}}. \textbf{Example 3.0.1} illustrates the creation of a simple centered titled and author.\\
+
+\noindent \textbf{Example 3.0.1:}
+\begin{verbatim}
+\title{Insert Title of Document}
+\author{Insert Author's Name}
+\maketitle{}
+\end{verbatim}
+
+In order to implement more complex functionality of creating titles, a user can specify a subtitle using the command \textit{\textbackslash subtitle\{\}} where the user can insert the subtitle within the curly brackets. An individual may even change the overall format of creating a title and author by utilizing commands that change the alignment of text such as \textit{\textbackslash centering\{\}}, \textit{\textbackslash raggedleft\{\}}, and \textit{\textbackslash raggedright\{\}} which would be inserted into the curly bracket of \textit{\textbackslash title\{\}} or \textit{\textbackslash author\{\}} as seen in \textbf{Example 3.0.2}.\\
+
+\noindent \textbf{Example 3.0.2:}
+\begin{verbatim}
+\title{\raggedright Insert Title of
+  Document}
+\author{\raggedright Insert Author's
+  Name}
+\maketitle{}
+\end{verbatim}
+
+An individual could also create a title page as well by using the command \textit{\textbackslash pagebreak\{\}} after implementing the command \textit{\textbackslash maketitle\{\}} or even utilizing the environment \textit{\textbackslash begin\{titlepage\}}.
+
+\section{Sections and Labeling}
+A user can create various sections, subsections, sub-subsections, and paragraphs to create a more structured document through built in \LaTeX\ commands as well.
+
+\subsection{Sections}
+In order to create a section a user can implement the command \textit{\textbackslash section\{\}} where the user would insert the name of the section within the curly brackets. 
+
+\subsection{Subsections}
+A subsection can be created using the command \textit{\textbackslash subsection\{\}} where the name of a given subsection would be typed within the curly brackets.
+
+\subsection{Sub-subsections}
+Sub-subsections are used to categorize a category within a given section and can be implemented using the command \textit{\textbackslash subsubsection\{\}} with the name of the subsection listed within the curly bracket.
+
+\subsection{Paragraphs}
+A user may create separate paragraphs utilizing the command \textit{\textbackslash par\{\}} before a block of text. A user can even specify if the paragraph should start with an indentation by utilizing the command \textit{\textbackslash setlength\{\textbackslash parindent\}\{\}} where in the empty curly brackets a user can specify the size of the indent such as ``1cm" or ``0.5in".
+
+\section{Environments}
+Environments within \LaTeX\ are used to create the formatting of text blocks within a \LaTeX\ document. Environments can range from alignment, numbering, creating matrices, or other user defined formatting. The syntax of an environment starts with an opening tag \textit{\textbackslash begin\{\}} and a closing tag \textit{\textbackslash end\{\}}.
+
+\subsection{Alignment}
+A user can utilize environments to format the alignment of a given text. An individual can choose alignments such as left justified, right justified, or center for a given block. \textbf{Example 5.1} showcases how to implement the respective alignments. \\ 
+\pagebreak
+\\
+\noindent \textbf{Example 5.1}
+\begin{verbatim}
+\begin{\raggedright}
+    Insert right justified text
+\end{\raggedright}
+
+\begin{\raggedleft} 
+    Insert left justified text
+\end{\raggedleft} 
+
+\begin{\center} 
+    Insert centered text
+\end{\center} 
+\end{verbatim}
+
+\subsection{Tabular}
+The \textit{Tabular} environment is used to format a a text block into a matrix. The \textit{Tabular} environment uses a parameter to specify the number of items within a column where the text between the opening and closing tags specifies the entries of a column separated by \& and \textbackslash \textbackslash \ separates rows. \textbf{Example 5.2} illustrates this  below. \\
+
+\noindent \textbf{Example 5.2}
+\begin{verbatim}
+\begin{tabular}{ c c c } 
+  1 & 2 & 3 \\ 
+  4 & 5 & 6 \\ 
+  7 & 8 & 9 \\ 
+ \end{tabular}
+\end{verbatim}
+ 
+\subsection{Itemize}
+The \textit{Itemize} environment is an environment used to create lists within \LaTeX. A user can created a bullet point list within a document as seen in \textbf{Example 5.3}.\\
+\\
+\\
+\\
+\noindent \textbf{Example 5.3}
+\begin{verbatim}
+\begin{itemize}
+\item Item 1
+\item Item 2
+\item Item 3
+\end{itemize}
+\end{verbatim}
+
+\section{Mathematical Formulas}
+To create Mathematical Formulas within \LaTeX\, a plethora of tools can be implemented to create complex formulas.
+
+\subsection{Exponents and Subscripts}
+\par To create an exponent of a number simply type in the base number followed by the caret symbol and the exponent number. In addition to create a subscript simply type the base number followed by the underscore symbol and the number to be sub-scripted in order to produce a subscript. 
+
+\subsection{Symbols}
+A user can invoke various math symbols utilizing \LaTeX\ code. Some basic math symbols include implementing a fraction using \textit{\textbackslash frac\{\}\{\}} where the first parameter would be the numerator and the second parameter would be the denominator. The summation symbol can be created using the command \textit{\textbackslash sum\{\}}. Greek letters such as alpha, beta, gamma, rho, signma, delta, and epilson can be inserted by the following commands respectively \textit{\textbackslash alpha, \textbackslash beta, \textbackslash gamma, \textbackslash rho, \textbackslash sigma, \textbackslash delta,} and \textit{\textbackslash epsilon}. For more math symbols, please refer to the \LaTeX\ documentation.
+
+\subsection{Math Modes}
+\par \LaTeX\ has a wide range of math modes to display equations in a multitude of ways.
+
+\subsubsection{Inline Math Mode}
+
+For an equation to be inserted within a line of text, a user can simply type in an equation between two dollar signs as shown in \textbf{Example 6.3.1}.\\
+
+\noindent \textbf{Example 6.3.1}
+\begin{verbatim}
+text $F=n^2$ text
+\end{verbatim}
+
+\subsubsection{Displayed Math Mode}
+To create a separate line with the equation centered a user can simply input the equation in between double dollar signs as illustrated below in \textbf{Example 6.3.2.1}.\\
+
+\noindent \textbf{Example 6.3.2.1}
+\begin{verbatim}
+text $$F=n^2$$ text
+\end{verbatim}
+
+If a user wanted to have the equation numbered in order to reference the equation throughout the paper, the user simply needs to utilize the \textit{equation} environment as shown in \textbf{Example 6.3.2.2}.\\
+
+\noindent \textbf{Example 6.3.2.2}
+\begin{verbatim}
+\begin{equation}
+  F=n^2
+\end{equation}
+\end{verbatim}
+\newpage
+\section{User-defined Marcos}
+A user can create new commands to further specialize the formatting of a given text by implementing a new command. The format of a macro can bee seen in \textbf{Example 7.0.1} where a user specifies the name of the macro, the number of parameters, and the definition of the command.\\
+
+\noindent \textbf{Example 7.0.1}
+\begin{verbatim}
+\newcommand{\macroname}[number of
+   parameters]{command definition}
+\end{verbatim}
+
+The following examples illustrate the usage of creating user-defined macro commands where \textbf{Example 7.0.2} displays three unique user defined macros. The first command displays the Pythagorean theorem, the second displays the name of a textbook with the title italicized, and the third creates the ``$\times 10$" which is used in scientific notation.\\
+
+\noindent \textbf{Example 7.0.2}
+\begin{verbatim}
+\newcommand{\pythag}{a^2+b^2=c^2}
+\end{verbatim}
+\\
+\begin{verbatim}
+\newcommand{\textBook}{\textit{
+   Analysis of Algorithms} by 
+   Henry Peters}
+\end{verbatim}
+\\
+\begin{verbatim}
+\newcommand{\scin}{$\times 10$}
+\end{verbatim}
+
+\section{Bibliography and Citation}
+A \LaTeX\ user can create a bibliography to host all their citations by creating a \textit{``.bib"} file that will contain all the bibliographic information of a given \LaTeX\ file. Once a \textit{``.bib"} file is created, a user can easily reference the citation using the \textit{ \textbackslash cite\{\}} command.
+
+The ``.bib" file will contain all the bibliographic information necessary which the given \LaTeX\ document will reference when using the \textit{ \textbackslash cite} command. The format of creating a reference within a ``.bib" file can be seen in \textbf{Example 8.0}.\\
+
+\noindent \textbf{Example 8.0}
+\begin{verbatim}
+@TypeOfDocument{citation_name,
+AUTHOR="name of author",
+TITLE="title of book",
+PUBLISHER="name of publisher",
+YEAR="Year Of Publishing",
+}
+\end{verbatim}
+
+Once a reference is created within a ``.bib" file, a user can simply type in the command \textit{\textbackslash cite\{citation\_name\}} and the text will note a number to reference that specific text.
+
+\section{Interesting \LaTeX\ Feature: Creating Images}
+To import images within \LaTeX\, a user simply needs to use the \textit{graphicx} package within \LaTeX\ by invoking the command \textit{\textbackslash usepackage\{graphicx\}}. Once the package is implemented, a user needs to write a command that tells \LaTeX\ where the images are kept within the current directory using the command \textit{\textbackslash graphicspath\{\}}. The user can then insert the image into the document by the command \textit{\textbackslash includegraphics\{\} }. An example of this can be seen in \textbf{Example 9.0.1}.\\
+\newpage
+\noindent \textbf{Example 9.0.1}
+\begin{verbatim}
+\usepackage{graphicx}
+\graphicspath{imagepath/}
+\includegraphics{ImageName}
+\end{verbatim}
+
+A user can then specify the image location by implementing the \textit{figure} environment where a user can specify the location and image size. Utilizing the command \textit{\textbackslash begin\{figure\}[h]}, a user can specify where exactly to place the figure within the brackets. Within Example 9.0.1, the figure is placed within the line of text with the \textit{h} parameter, the image will be centered, and have a width and height of 0.5 with both a label and caption.\\  
+
+\noindent \textbf{Example 9.0.1}
+\begin{verbatim}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5, height=0.5]
+    {ImageName}
+\caption{Insert Caption here}
+\label{Insert Label Here}
+\end{figure}
+\end{verbatim}
+
+\begin{thebibliography}{2}
+\bibitem{latexdoc} LaTeX Documentation, 
+\emph{LaTeX Documentation}, \textit{https://www.sharelatex.com/learn}.
+Feb 1. 2018.
+
+\bibitem{lectnotes} Phokion G. Kolaitis, \emph{Lecture 2},
+``CMPS 185: Technical Writing for Computer Science",
+\textit{https://piazza.com/cmps185}
+Feb 1. 2018.
+\end{thebibliography}
+\end{document}

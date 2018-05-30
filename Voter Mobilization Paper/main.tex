@@ -1,0 +1,185 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc,fullpage,authblk,indentfirst,graphicx,amsmath,setspace,caption,adjustbox}
+
+\usepackage{pdfpages}
+
+\setlength{\parindent}{5ex}
+\doublespacing
+\captionsetup[table]{skip=10pt}
+
+
+\title{Causal Inference: An Analysis of the Voter Mobilization Experiment}
+\author{Dailon Dolojan}
+\date{April 26, 2018}
+
+\begin{document}
+
+\maketitle
+\begin{center}
+    \textbf{Abstract}
+\end{center}
+\paragraph{\indent}An important aspect in establishing causal inferences between a treatment variable and an outcome variable is the randomization of participants between the treatment and control groups. In order to understand the causal effect of a randomized experiment, we examine the effect of ``get-out-the-vote" phone calls on the probability of voting in the 2002 midterm election. The voting data focuses on two main treatment variables: the assignment to the treatment group and if the household was successfully contacted. The results illustrate that randomization is necessary in order to determine the true effect of the treatment. In addition, our experimental data suggests that there is a slight increase in the probability of voting in the 2002 midterm election due to ``get-out-the-vote" phone calls whereas the non-experimental data does not give a credible unbiased estimate. 
+
+\section{Introduction}
+
+\indent In the article ``Comparing Experimental and Matching Methods Using a Large-Scale Voter Mobilization Experiment” \cite{vote}, the authors of the paper conduct an experiment to analyze the effect of ``get-out-the-vote" phone calls in the upcoming 2002 election within Iowa and Michigan.
+
+\indent The data set implements two treatment variables which are households that received a phone call and households that responded to the ``get-out-the-vote" phone call. Other characteristics such as age, gender, newly registered voter, and past voting history in 1998 and 2000 are also factors that are taken into consideration within our regression. Lastly, the outcome variable of our experiment is recorded as whether the household voted or not.
+
+\indent Prior to our experiment, we measure if the treatment and control group is comparable by determining if the means of their characteristics were similar between both groups. Two separate regressions are conducted to juxtapose the effect on voting in 2002. Within the first regression, we examine the causal effect of individuals that are assigned to the treatment group. The second regression analyzes the causal effect of individuals opting into the treatment group by answering the phone call. We then examine the effect of adding covariates on voting in 2002 for both regressions. Lastly, we implement an instrumental variable approach to depict an unbiased estimation of the true effect of ``get-out-the-vote" phone call".
+
+\indent By analyzing the data, we were able to determine that both the control and treatment group in the experimental data were comparable due to the average of each characteristic being the same across both treatment and control groups. The non-experimental data did not showcase a similar set of averages due to the lack of randomization that occurs when participants must opt into treatment. The experimental data thus produces in an effect of 0.010 points whereas the non-experimental results had an effect of 0.068 points on probability of voting. When adjusting the regressions for covariates, the experimental data has no effect on our regression whereas the non-experimental results illustrates a steady decrease in the overall point estimation. The steady decrease in the overall point estimation for the non-experimental results exemplifies a closer approximation of the ``true" value of the treatment effect.  
+
+\indent In conclusion, our experiment not only illustrates the importance of randomization when combating selection bias, but emphasizes the importance of possible omitted variable bias that can also affect the regression. Even when adjusting for differences in the non-experimental approach, the lack of randomization provides a biased estimation of the true effect of treatment. Therefore by analyzing our experimental results, we can illustrate a trend of slightly positive causal effect of ``get-out-the-vote" phone calls on the probability of voter turnout.
+
+\section{Data}
+The data from our experiment is obtained by randomly assigning 1,905,320 households to receive a ``get-out-the-vote" phone call. The treatment group which is composed of households who were called was 59,972 whereas the control group who did not receive the call was 1,845,348. Since our data is comprised of multiple subjects at the same point in time, the data can be classified as cross-sectional.
+
+\indent With both regressions, two different forms of treatments, $treat\_real$ and $contact$, are implemented to analyze our data. The binary variable $treat\_real$ represents that the household is assigned to the treatment group regardless if the household answered the ``get-out-the-vote" phone call whereas the binary variable $contact$ takes a value of $1$ if the household picked up the phone and responded to the call. The outcome variable of this experiment is $vote02$ which is a binary variable that indicates if the household voted in the election or not. Other characteristic traits are also recorded and will be used as covariates within our regression. The covariates are age, gender, newly registered voter, and past voting history. Age and gender were recorded as variables $age$ and $female$. A newly registered voter is noted by the binary variable $newreg$. Lastly, whether the individual voted in the 1998 election and voted in the 2000 election is noted as $vote98$ and $vote00$ respectively.
+
+\section{Methods}
+\indent In order to test the effect of ``get-out-the-vote" phone calls on whether a household votes in the 2002 election, we implement two forms of regressions. Our first step prior to implementing our regressions is to check if both the treatment group and control group are comparable. This is done by evaluating the mean of each characteristic for both treatment and control groups, determining the difference between the two means, and the p-value of the difference for each characteristic. If the mean of a given characteristic is the same for the treatment and control group, the characteristic can be considered successfully randomized between both treatment and control group. Thus providing a evidence that both groups are comparable to study.
+
+\indent The second step involves using an ordinary least squares (OLS) regression of the treatment variable on $vote02$ to measure the effect of adding covariates to the regression.
+
+\indent When testing the effect of $treat\_real$ on $vote02$, we implement the following regression equation:
+$$vote02_i = \beta_0 +\beta_1*treat\_real_i+\mu_i$$
+
+This regression is then altered by adding one covariate to the regression where we can analyze the effect of the covariate on the point estimate. The equations below illustrate the effect of adding the covariates $female$, $age$, $newreg$, $vote00$, and $vote98$
+$$vote02_i = \beta_0 +\beta_1*treat\_real_i+\beta_2*female_i+\beta_3*age_i+\beta_4*newreg_i+\beta_5*vote00_i+\beta_6*vote98_i+\mu_i$$
+
+\indent Similarly, we conduct the exact same regression on adding covariates for the regression of $contact$ on $vote02$. We proceed to analyze the effect of adding the same covariates of $female$, $age$, $newreg$, $vote00$, and $vote98$ with the following equation.
+ 
+$$vote02_i = \beta_0 +\beta_1*contact_i+\beta_2*female_i+\beta_3*age_i+\beta_4*newreg_i+\beta_5*vote00_i+\beta_6*vote98_i+\mu_i$$
+
+\indent Finally, we implement a instrumental variable regression where the reduced form, the effect of assignment to treatment on the outcome variable, is divided by the first stage, the effect of assignment to treatment on treatment status. This can be seen below in the following equation:
+
+$$\pi_i = \frac{E[vote02_i|treat\_real=1]- E[vote02_i|treat\_real=0]}{E[contact_i|treat\_real=1]- E[contact_i|treat\_real=0]}$$
+
+\section{Results}
+In \textbf{Table 1}, we can observe the randomization of both treatment and control group is correctly implemented due to the means of each characteristic are equal amongst both control and treatment groups. To further supplant this claim, the likelihood of the difference between both control and treatment groups being real, which is indicated by the p-value, all exemplify a value greater than 0.10. Thus by our results found in \textbf{Table 1}, the p-values indicate that the differences in characteristics are not statistically significant. This means that the differences of the characteristics between both treatment and control groups should not affect the estimate of the true treatment effect of ``get-out-the-vote" calls since the characteristics are successfully randomized. Therefore we can conclude that the treatment and control group are comparable.
+
+\indent When contrasting the effect of adding covariates to the regression of $treat\_real$ on $vote02$ as shown in \textbf{Table 3}, the point estimates of ``Assignment to Treatment Group" in row 1 illustrate the effect of $treat\_real$ on the $vote02$ as covariates are added to the regression. Almost no change is observed except for minor decrements when adding the covariates of $female$, $age$, $newreg$, $vote00$, and $vote98$. The progressive decreases between point estimates fluctuate between 0.001 and 0.002 which illustrate almost no change in the effect of the treatment. Thus, from our findings we should have received an unbiased estimate of the voting probability from comparing the voting rate of the group that got assigned to get the call with the voting rate of the group that did not get assigned to get a call. Our estimate should be unbiased, despite not having information in regards to unobservables, due to the fact that we have established comparability between both treatment and control groups through randomization.
+
+\indent In comparison, the balance table shown in \textbf{Table 2} for the treatment variable $contact$ indicates an unbalanced treatment and control group. The control group does not provide a good enough counterfactual due to the fact that individuals need to opt into the treatment by answering the phone call instead of random assignment. This claim is supported by the mean differences shown in column three where the averages of each characteristic in the control group and treatment group are consistently different values. The p-values are less than or equal to 0.05 for all variables illustrating that the differences between the treatment and control group are statistically significant. 
+
+\indent Within \textbf{Table 4}, adding covariates to the regression of $contact$ on $vote02$ illustrate significant changes to the point estimates of the effect of the household picking up the phone. When adding the covariates of $female$, $age$, $newreg$, $vote00$, and $vote98$; the point estimates show significant decreases close to 2 standard errors for all effect sizes. This trend exemplifies the differences between the treatment and control group are statistically significant due to the effect sizes being close to 2 standard errors. As the point estimations slowly decrease with the addition of covariates, the point estimations are moving closer to true value of the effect of the treatment variable.
+
+\indent The results from the instrumental variable regression shown in \textbf{Table 5} illustrate the treatment effect of receiving a ``get-out-the-vote" call on the probability of voting per household. By conducting the instrumental variable regression, the estimated treatment effect per household is estimated to be 0.021 points. This instrumental variable regression measures the average treatment effect for compilers which refers to the individuals who received and responded to the ``get-out-the-vote" call and did not respond if they did not receive the call. Through our results, the three assumptions of instrumental variables can be assumed. The first assumption is upheld with the estimation of the first stage and the estimation of the treatment effect prove to be consistent estimates due to successful randomization. Since our first stage has a value of 0.464, the second assumption of obtaining a non-zero first stage is upheld. Lastly, the third assumption that the treatment assignment only affects the outcome variable through treatment status can be assumed by the successful randomization of the experimental data thus illustrating the only difference between treatment and control groups is the treatment status.
+
+\section{Conclusion}
+\indent Through the analysis of the data from the experiment, it is evident that randomization is important in creating causal inferences. Our findings show us that the regression of assignment to the treatment group on the probability of voting contains a balanced set of characteristics between both treatment and control groups. Before implementing the experiment, the balanced variables between both groups ultimately shows no statistical significance in creating a difference between the treatment and control group. Therefore when adding covariates to the regression, the point estimations of the treatment effect does not change. This illustrates that we have obtained an unbiased estimate of the treatment effect.
+
+\indent On the other hand when regressing whether an individual picks up the phone call on the probability of voting, the variables amongst the treatment and control group are not comparable due to the lack of randomization from participants opting into the treatment group. Thus causing the difference between the treatment and control group to be statistically significant in showcasing a difference between the treatment and control group prior to treatment. This imbalance between variables therefore results in significant decreases to the point estimation of the treatment effect when adding covariates to our original regression. By adding more covariates to our regression, we are obtaining a closer estimation to the true value of treatment. Therefore when we compare the estimation obtained in the experimental results, we can illustrate that there is a positive bias as the non-experimental results drastically decrease towards the experimental result of 0.010.
+
+\indent Our results indicate that randomization plays a key role in establishing causal inference. The regression of individuals picking up the ``get-out-the-vote" phone call on the probability of voting is a prime example of selection bias where individual ''select" to be a part of the treatment group. This ultimately changes the balance of characteristics between both treatment and control groups which will affect the regression of the treatment variable onto the outcome variable. In addition, the omitted variable bias is also prevalent within our results due to the fact that not every single characteristic such as education or citizenship is taken into account thus creating a possible bias. Despite the bias shown in the non-experimental results, the regression of assignment to treatment group on probability of voting represents an unbiased estimate on the effect of ``get-out-the-vote" phone calls.
+
+\pagebreak
+\section{Tables}
+
+\begin{table}[htbp]\centering
+\caption{Balance Table of Experimental Data}
+\resizebox{\textwidth}{!}{\begin{tabular}{l*{3}{ccc}}
+\hline\hline
+                    &\multicolumn{1}{c}{Control Group}&\multicolumn{1}{c}{Treatment Group}&\multicolumn{2}{c}{Mean Comparison}\\
+                    &        Mean&        Mean&  Difference   &     p-value\\
+\hline
+Gender of Individual&       0.562&       0.562&      -0.000   &      0.9881\\
+Age of Individual   &      55.832&      55.978&      -0.146   &      0.3780\\
+Newly Registered Voters&       0.049&       0.047&       0.002   &      0.3629\\
+Vote in 00          &       0.733&       0.734&      -0.001   &      0.8081\\
+Vote in 98          &       0.573&       0.575&      -0.002   &      0.5925\\
+\hline
+Observations        &       86249&       15153&      101402   &            \\
+\hline\hline
+\end{tabular}}
+\end{table}
+
+\begin{table}[htbp]\centering
+\caption{Balance Table of Non-Experimental Data}
+\resizebox{\textwidth}{!}{\begin{tabular}{l*{3}{ccc}}
+\hline\hline
+                    &\multicolumn{1}{c}{Control Group}&\multicolumn{1}{c}{Treatment Group}&\multicolumn{2}{c}{Mean Comparison}\\
+                    &        Mean&        Mean&  Difference   &     p-value\\
+\hline
+Gender of Individual&       0.561&       0.577&      -0.017** &      0.0057\\
+Age of Individual   &      55.650&      58.593&      -2.943***&      0.0000\\
+Newly Registered Voters&       0.049&       0.044&       0.005*  &      0.0454\\
+Vote in 00          &       0.730&       0.767&      -0.037***&      0.0000\\
+Vote in 98          &       0.571&       0.607&      -0.037***&      0.0000\\
+\hline
+Observations        &       94371&        7031&      101402   &            \\
+\hline\hline
+\end{tabular}}
+\end{table}
+
+\resizebox{\textwidth}{!}{\begin{tabular}{lcccccc}
+\multicolumn{7}{c}{Table 3: Treatment Effect of Adding Covariates to the Regression of Experimental Data} \\ \hline
+ & (1) & (2) & (3) & (4) & (5) & (6) \\
+VARIABLES & vote02 & vote02 & vote02 & vote02 & vote02 & vote02 \\ \hline
+ &  &  &  &  &  &  \\
+Assignment to Treatment Group & 0.010** & 0.008* & 0.007* & 0.007 & 0.009** & 0.008** \\
+ & (0.004) & (0.004) & (0.004) & (0.004) & (0.004) & (0.004) \\
+Gender of Individual &  & -0.009*** & -0.032*** & -0.032*** & -0.029*** & -0.026*** \\
+ &  & (0.003) & (0.003) & (0.003) & (0.003) & (0.003) \\
+Age of Individual &  &  & 0.006*** & 0.006*** & 0.003*** & 0.002*** \\
+ &  &  & (0.000) & (0.000) & (0.000) & (0.000) \\
+Newly Registered Voters &  &  &  & -0.216*** & 0.138*** & 0.163*** \\
+ &  &  &  & (0.007) & (0.007) & (0.007) \\
+Vote in 00 &  &  &  &  & 0.532*** & 0.403*** \\
+ &  &  &  &  & (0.003) & (0.004) \\
+Vote in 98 &  &  &  &  &  & 0.270*** \\
+ &  &  &  &  &  & (0.003) \\
+Constant & 0.594*** & 0.615*** & 0.289*** & 0.327*** & 0.029*** & 0.070*** \\
+ & (0.002) & (0.002) & (0.005) & (0.005) & (0.005) & (0.005) \\
+ &  &  &  &  &  &  \\
+Observations & 101,402 & 98,839 & 98,839 & 98,839 & 98,839 & 98,839 \\
+ R-squared & 0.000 & 0.000 & 0.054 & 0.063 & 0.249 & 0.301 \\ \hline
+\end{tabular}}
+
+\resizebox{\textwidth}{!}{\begin{tabular}{lcccccc}
+\multicolumn{7}{c}{Table 4: Treatment Effect of Adding Covariates to the Regression of Non-Experimental Data} \\ \hline
+ & (1) & (2) & (3) & (4) & (5) & (6) \\
+VARIABLES & vote02 & vote02 & vote02 & vote02 & vote02 & vote02 \\ \hline
+ &  &  &  &  &  &  \\
+Individual picked up the phone & 0.068*** & 0.058*** & 0.040*** & 0.041*** & 0.036*** & 0.035*** \\
+ & (0.006) & (0.006) & (0.006) & (0.006) & (0.005) & (0.005) \\
+Gender of Individual &  & -0.009*** & -0.032*** & -0.032*** & -0.029*** & -0.026*** \\
+ &  & (0.003) & (0.003) & (0.003) & (0.003) & (0.003) \\
+Age of Individual &  &  & 0.006*** & 0.006*** & 0.003*** & 0.002*** \\
+ &  &  & (0.000) & (0.000) & (0.000) & (0.000) \\
+Newly Registered Voters &  &  &  & -0.216*** & 0.138*** & 0.163*** \\
+ &  &  &  & (0.007) & (0.007) & (0.007) \\
+Vote in 00 &  &  &  &  & 0.532*** & 0.403*** \\
+ &  &  &  &  & (0.003) & (0.004) \\
+Vote in 98 &  &  &  &  &  & 0.270*** \\
+ &  &  &  &  &  & (0.003) \\
+Constant & 0.591*** & 0.612*** & 0.289*** & 0.326*** & 0.029*** & 0.070*** \\
+ & (0.002) & (0.002) & (0.005) & (0.005) & (0.005) & (0.005) \\
+ &  &  &  &  &  &  \\
+Observations & 101,402 & 98,839 & 98,839 & 98,839 & 98,839 & 98,839 \\
+ R-squared & 0.001 & 0.001 & 0.055 & 0.063 & 0.249 & 0.301 \\ \hline
+\end{tabular}}
+
+\resizebox{\textwidth}{!}{\begin{tabular}{lccc}
+\multicolumn{4}{c}{Table 5: Instrumental Variable Regression of Voter Mobilization Data} \\ \hline
+ & (1) & (2) & (3) \\
+VARIABLES & vote02 & Individual picked up the phone & vote02 \\ \hline
+ &  &  &  \\
+Assignment to Treatment Group & 0.010** & 0.464*** &  \\
+ & (0.004) & (0.002) &  \\
+Individual picked up the phone &  &  & 0.021** \\
+ &  &  & (0.009) \\
+Constant & 0.594*** & 0.000 & 0.594*** \\
+ & (0.002) & (0.001) & (0.002) \\
+ &  &  &  \\
+Observations & 101,402 & 101,402 & 101,402 \\
+ R-squared & 0.000 & 0.424 & 0.001 \\ \hline
+\end{tabular}}
+
+\pagebreak
+\clearpage
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{mybib.bib}
+\end{document}
